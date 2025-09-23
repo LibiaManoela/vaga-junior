@@ -7,19 +7,8 @@ import com.libia.desafio_merito.entidades.*;
 @SpringBootApplication
 public class DesafioVagaJuniorApplication {
 
-	public static void main(String[] args) {
-            SpringApplication.run(DesafioVagaJuniorApplication.class, args);
-                
-            // Inicializa dados mockados
-            Bomba.initializeMockData();
-            Abastecimento.initializeMockData();
-
-            // Exibe no console
-            System.out.println("=== Bombas ===");
-            Bomba.printBombas();
-
-            System.out.println("=== Abastecimentos ===");
-            Abastecimento.printAbastecimentos();
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(DesafioVagaJuniorApplication.class, args);
+            
+    }
 }

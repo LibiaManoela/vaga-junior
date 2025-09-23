@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.libia.desafio_merito.controllers;
 
 import com.libia.desafio_merito.entidades.Combustivel;
+import com.libia.desafio_merito.repository.CombustivelRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -15,35 +13,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/combustiveis")
 public class CombustivelController {
+    @Autowired
+    private CombustivelRepository repository;
+
     @GetMapping
     public List<Combustivel> getAll() {
-        return Combustivel.getCombustiveis();
+        return repository.findAll();
     }
 
     @PostMapping
     public Combustivel create(@RequestBody Combustivel combustivel) {
-        combustivel.setId((long) (Combustivel.getCombustiveis().size() + 1));
-        Combustivel.getCombustiveis().add(combustivel);
-        return combustivel;
+        return repository.save(combustivel);
     }
 
     @PutMapping("/{id}")
     public Combustivel update(@PathVariable Long id, @RequestBody Combustivel combustivel) {
-        Combustivel existing = Combustivel.getCombustiveis().stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if (existing != null) {
-            Combustivel.getCombustiveis().remove(existing);
-            combustivel.setId(id);
-            Combustivel.getCombustiveis().add(combustivel);
-            return combustivel;
-        }
-        return null;
+        combustivel.setId(id);
+        return repository.save(combustivel);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        Combustivel.getCombustiveis().removeIf(c -> c.getId().equals(id));
+        repository.deleteById(id);
     }
 }

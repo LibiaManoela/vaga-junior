@@ -1,5 +1,7 @@
 # 🔹 Desafio Técnico Júnior #1 – Cadastro e Consulta de Abastecimentos
 
+[Acesso ao planejamento](https://tree.taiga.io/project/libiamanoela-desafio-merito/backlog)
+
 ## 🛠 Objetivo
 
 Desenvolver uma aplicação simples em **Java** para cadastro e consulta de abastecimentos em um posto de combustível, com armazenamento em banco de dados e exibição dos dados via **Java Swing** ou **API REST**.

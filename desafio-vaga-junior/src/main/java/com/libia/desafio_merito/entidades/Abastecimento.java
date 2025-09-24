@@ -1,5 +1,6 @@
 package com.libia.desafio_merito.entidades;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Abastecimento {
 
     @ManyToOne //define relação um pra muitos
     @JoinColumn(name = "bomba_id") //adiciona chave estrangeira
+    @JsonBackReference //evita que bomba seja serializado, usado pra quebrar repetição no get de abastecimentos 
     private Bomba bomba;
 
     private LocalDateTime data;

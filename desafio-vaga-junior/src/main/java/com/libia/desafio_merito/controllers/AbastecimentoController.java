@@ -1,7 +1,7 @@
 package com.libia.desafio_merito.controllers;
 
 import com.libia.desafio_merito.entidades.Abastecimento;
-import com.libia.desafio_merito.repository.AbastecimentoRepository;
+import com.libia.desafio_merito.service.AbastecimentoService;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.*;
 
 public class AbastecimentoController {
     @Autowired //injeção automática do repositório, permite o "plug-and-play" do Spring
-    private AbastecimentoRepository repository;
+    private AbastecimentoService abastecimentoService;
 
     @GetMapping //rota para MOSTRAR as informações
     public List<Abastecimento> getAll() {
-        return repository.findAll();
+        return abastecimentoService.listarTodos();
     }
 
     @PostMapping //rota para INSERIR as informações
     public Abastecimento create(@RequestBody Abastecimento abastecimento) {
-        return repository.save(abastecimento);
+        return abastecimentoService.criarAbastecimento(abastecimento);
     }
 }

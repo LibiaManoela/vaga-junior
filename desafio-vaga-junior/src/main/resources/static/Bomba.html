@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de Bomba</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 40px;
+                background: #f4f4f9;
+                color: #333;
+            }
+            h1, h2 {
+                color: #2c3e50;
+            }
+            form {
+                background: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                max-width: 400px;
+                margin-bottom: 30px;
+            }
+            label {
+                display: block;
+                margin-bottom: 6px;
+                font-weight: bold;
+            }
+            input {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+            }
+            button {
+                background: #3498db;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            button:hover {
+                background: #2980b9;
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+            li {
+                background: #fff;
+                margin: 6px 0;
+                padding: 10px;
+                border-radius: 6px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Cadastro de Bomba</h1>
+
+        <form id="form-bomba" onsubmit="event.preventDefault(); salvar();">
+            <label for="nome">
+                Nome:
+                <input id="nome" required>
+            </label>
+
+            <label for="combustivelId">
+                ID do Combustível:
+                <input id="combustivelId" type="number" required>
+            </label>
+
+            <button type="submit">Salvar</button>
+            <button onclick="window.location.href='index.html'" style="background: #e74c3c; margin-left: 10px;">Voltar</button>
+        </form>
+
+        <h2>Lista de Bombas</h2>
+        <ul id="lista"></ul>
+
+        <script>
+            function salvar() {
+                fetch('http://localhost:8080/bombas', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        nome: document.getElementById('nome').value,
+                        tipoCombustivel: { id: parseInt(document.getElementById('combustivelId').value) }
+                    })
+                }).then(() => {
+                    document.getElementById('nome').value = '';
+                    document.getElementById('combustivelId').value = '';
+                    carregarLista();
+                }).catch(err => alert('Erro: ' + err));
+            }
+
+            function carregarLista() {
+                fetch('http://localhost:8080/bombas')
+                .then(response => response.json())
+                .then(data => {
+                    const lista = document.getElementById('lista');
+                    lista.innerHTML = '';
+                    data.forEach(b => {
+                        lista.innerHTML += `<li>ID: ${b.id}, Nome: ${b.nome}, Combustível: ${b.tipoCombustivel.nome}</li>`;
+                    });
+                }).catch(err => alert('Erro ao carregar: ' + err));
+            }
+
+            window.onload = carregarLista;
+        </script>
+    </body>
+</html>
